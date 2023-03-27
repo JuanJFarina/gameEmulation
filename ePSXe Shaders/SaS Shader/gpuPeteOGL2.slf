@@ -1,0 +1,76 @@
+uniform sampler2D OGL2Texture;//Smooth and Sharp Shader by Juan Jose Farina
+float diffDegree(vec3 dda, vec3 ddb){
+	float dd=0.0;
+	for(int ddn=0;ddn<3;ddn++){
+		if(dda[ddn]>ddb[ddn]){dd+=dda[ddn]-ddb[ddn];}
+		else{dd+=ddb[ddn]-dda[ddn];}
+	}return dd;}
+void main(){
+	vec3 c11=texture2D(OGL2Texture,gl_TexCoord[0].xy).xyz;//CENTER
+	vec3 c01=texture2D(OGL2Texture,gl_TexCoord[3].xy).xyz;//LEFT
+	vec3 c20=texture2D(OGL2Texture,gl_TexCoord[2].zw).xyz;//TOP-LEFT
+	vec3 c12=texture2D(OGL2Texture,gl_TexCoord[2].xy).xyz;//TOP
+	vec3 c22=texture2D(OGL2Texture,gl_TexCoord[6].xy).xyz;//TOP-RIGHT
+	vec3 c21=texture2D(OGL2Texture,gl_TexCoord[4].xy).xyz;//RIGHT
+	vec3 c02=texture2D(OGL2Texture,gl_TexCoord[1].zw).xyz;//BOTTOM-RIGHT
+	vec3 c10=texture2D(OGL2Texture,gl_TexCoord[1].xy).xyz;//BOTTOM
+	vec3 c00=texture2D(OGL2Texture,gl_TexCoord[5].xy).xyz;//BOTTOM-LEFT
+	vec3 suaA=(c11+c01+c20+c12+c22+c21+c02+c10+c00)/9;
+	vec3 suaB=(suaA+c11)/2;
+	vec3 suaC=(suaB+c11)/2;
+	vec3 suaD=(suaC+c11)/2;
+	float uno=diffDegree(c11,c01);
+	float dos=diffDegree(c11,c20);
+	float tres=diffDegree(c11,c12);
+	float cuatro=diffDegree(c11,c22);
+	float cinco=diffDegree(c11,c21);
+	float seis=diffDegree(c11,c02);
+	float siete=diffDegree(c11,c10);
+	float ocho=diffDegree(c11,c00);
+	float nueve=diffDegree(suaA,c11);
+	if(
+		(uno<0.125)&&
+		(dos<0.125)&&
+		(tres<0.125)&&
+		!(cuatro<0.25)&&
+		!(cinco<0.25)&&
+		!(seis<0.25)&&
+		!(siete<0.25)&&
+		!(ocho<0.25)
+	){gl_FragColor.xyz=(((c22+c00)/2)+c11)/2;}
+	else if(
+		!(uno<0.25)&&
+		!(dos<0.25)&&
+		(tres<0.125)&&
+		(cuatro<=0.125)&&
+		(cinco<=0.125)&&
+		!(seis<=0.25)&&
+		!(siete<=0.25)&&
+		!(ocho<=0.25)
+	){gl_FragColor.xyz=(((c20+c02)/2)+c11)/2;}
+	else if(
+		!(uno<=0.25)&&
+		!(dos<=0.25)&&
+		!(tres<=0.25)&&
+		!(cuatro<=0.25)&&
+		(cinco<=0.125)&&
+		(seis<=0.125)&&
+		(siete<=0.125)&&
+		!(ocho<=0.25)
+	){gl_FragColor.xyz=(((c22+c00)/2)+c11)/2;}
+	else if(
+		(uno<0.125)&&
+		!(dos<0.25)&&
+		!(tres<0.25)&&
+		!(cuatro<0.25)&&
+		!(cinco<0.25)&&
+		!(seis<0.25)&&
+		(siete<0.125)&&
+		(ocho<0.125)
+	){gl_FragColor.xyz=(((c20+c02)/2)+c11)/2;}
+	else{
+		if(nueve>=0.5){gl_FragColor.xyz=c11;}
+		else if(nueve>=0.375){gl_FragColor.xyz=suaD;}
+		else if(nueve>=0.25){gl_FragColor.xyz=suaC;}
+		else if(nueve>=0.125){gl_FragColor.xyz=suaB;}
+		else{gl_FragColor.xyz=suaA;}}}

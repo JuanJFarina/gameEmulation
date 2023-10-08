@@ -95,19 +95,19 @@ void main()
 	float ocho=diffDegree(c11,c00);
 	float nueve=diffDegree(reduce(suaA),c11);
 	if(
-		(uno<0.125)&&
-		(dos<0.125)&&
-		(tres<0.125)&&
-		!(cuatro<0.25)&&
-		!(cinco<0.25)&&
-		!(seis<0.25)&&
-		!(siete<0.25)&&
-		!(ocho<0.25)
+		(uno<=0.125)&&
+		(dos<=0.125)&&
+		(tres<=0.125)&&
+		!(cuatro<=0.25)&&
+		!(cinco<=0.25)&&
+		!(seis<=0.25)&&
+		!(siete<=0.25)&&
+		!(ocho<=0.25)
 	){pFinal=(((C22+C00)/2)+C11)/2;}
 	else if(
-		!(uno<0.25)&&
-		!(dos<0.25)&&
-		(tres<0.125)&&
+		!(uno<=0.25)&&
+		!(dos<=0.25)&&
+		(tres<=0.125)&&
 		(cuatro<=0.125)&&
 		(cinco<=0.125)&&
 		!(seis<=0.25)&&
@@ -125,14 +125,14 @@ void main()
 		!(ocho<=0.25)
 	){pFinal=(((C22+C00)/2)+C11)/2;}
 	else if(
-		(uno<0.125)&&
-		!(dos<0.25)&&
-		!(tres<0.25)&&
-		!(cuatro<0.25)&&
-		!(cinco<0.25)&&
-		!(seis<0.25)&&
-		(siete<0.125)&&
-		(ocho<0.125)
+		(uno<=0.125)&&
+		!(dos<=0.25)&&
+		!(tres<=0.25)&&
+		!(cuatro<=0.25)&&
+		!(cinco<=0.25)&&
+		!(seis<=0.25)&&
+		(siete<=0.125)&&
+		(ocho<=0.125)
 	){pFinal=(((C20+C02)/2)+C11)/2;}
 	else{
 		if(nueve>=0.5){pFinal=C11;}
